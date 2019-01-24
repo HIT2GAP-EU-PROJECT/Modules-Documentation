@@ -1,22 +1,22 @@
 # Modules integration
 
-The Hit2Gap Core Platform (openBMS) is a middleware that facilitates the communication between data captured on-site from monitored buildings and smart modules.
+The Hit2Gap Core Platform (BEMServer) is a middleware that facilitates the communication between data captured on-site from monitored buildings and smart modules.
 It is based on standard web technologies:
 
 1. Semantic web technologies to describe monitored data
 2. REST APIs to enable communication between the different entities
 
-For a module to be integrated in an openBMS environment, it needs to be registered in an instance of openBMS, to get some rights on it, to be able to get data from openBMS and potentially to push some, and if necessary to have its frontend integrated in the Hit2Gap web portal.
+For a module to be integrated in an BEMServer environment, it needs to be registered in an instance of BEMServer, to get some rights on it, to be able to get data from BEMServer and potentially to push some, and if necessary to have its frontend integrated in the Hit2Gap web portal.
 
 In this file, we focus on data exchange between modules and the Core Platform; front-end integration and security aspects are described in the other files of the current directory.
 
 ## Module Registration
 
-The first step for a module developer to get its module interacting with an openBMS instance is to get it registered on it. In order to do so, various steps needs to be handled, by the module developer itself, and the openBMS administrator.
+The first step for a module developer to get its module interacting with an BEMServer instance is to get it registered on it. In order to do so, various steps needs to be handled, by the module developer itself, and the BEMServer administrator.
 
 ### Module developer
 
-The module developer needs to provide information about its module to either the administrator, or the openBMS directly.
+The module developer needs to provide information about its module to either the administrator, or the BEMServer directly.
 In the second case, this can be done through the following steps:
 
 * inform the module (https://h2g-platform-core.nobatek.com/api/v0/api-docs/redoc#tag/services)
@@ -42,14 +42,14 @@ POST https://h2g-platform-core.nobatek.com/api/v0/outputs/timeseries/
 Beware these initial steps are only used to give a description of the module, and its outputs. All the steps are obviously not mandatory. In particular, if the module is a visualization module (produces no outputs), no model and output need to be created.
 After this initial step, no time series or event is created, but the module is allowed to create some.
 
-### openBMS administrator
+### BEMServer administrator
 
-In parallel, the openBMS administrator is in charge of defining a profile for the module developer, based on the information provided by the latter. This information are :
+In parallel, the BEMServer administrator is in charge of defining a profile for the module developer, based on the information provided by the latter. This information are :
 - provide the developer with an identifier
 - assign him a scope [role, sites] so that the module can have an access to the data he needs on the different sites, based on its role.
 Depending on the whether the module is running in a scheduled mode or on-demand, a certificate will be generated for the module.
 
-## Get data from openBMS
+## Get data from BEMServer
 
 Data are obtained using ```GET``` operations on the different APIs describing sites and measures. Data are structured in a hierarchical mode, and separated in the following categories
 
@@ -100,7 +100,7 @@ https://h2g-platform-core.nobatek.com/api/v0/timeseries/{timeseries_id}
 Where ```timeseries_id``` uniquely identifies a measure/module output.
 **IN THE HIT2GAP PROJECT, THIS ID CORRESPONDS TO THE VALUE IN THE ```external_id``` field of the measure/module output description in the API**
 
-## Pushing values to an openBMS instance
+## Pushing values to an BEMServer instance
 
 Once the module, its models and outputs are fully informed, pushing data to an instance of openBMs is straightforward.
 
@@ -116,6 +116,3 @@ For Time Series, use a PATCH operation on the time series API (using the externa
 ```
 PATCH https://h2g-platform-core.nobatek.com/api/v0/timeseries/{timeseries_id}
 ```
-
-
-
